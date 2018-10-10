@@ -3,6 +3,12 @@
 UMASK_SET=${UMASK_SET:-022}
 umask "$UMASK_SET"
 
+if [ -f /mnt/config.ini ]; then
+    echo "mounting point ok!"
+    rm /config/config.ini
+    ln -s /mnt/config.ini /config/config.ini
+fi
+
 exec \
 	s6-setuidgid abc python /app/couchpotato/CouchPotato.py \
 	--config_file=/config/config.ini --data_dir=/config/data
